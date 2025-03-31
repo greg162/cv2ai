@@ -23,7 +23,6 @@ class JobController extends Controller
 
     public function store(Request $request)
     {
-        dd('here');
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
