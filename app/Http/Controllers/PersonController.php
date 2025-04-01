@@ -78,7 +78,7 @@ class PersonController extends Controller
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:people,email',
+            'email' => 'required|email|unique:people,email,' . $person->id,
             'phone' => 'nullable|string|max:20',
             'address_line_1' => 'nullable|string|max:255',
             'address_line_2' => 'nullable|string|max:255',

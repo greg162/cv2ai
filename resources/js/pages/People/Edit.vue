@@ -4,43 +4,132 @@
         
         <form @submit.prevent="submit" class="max-w-md">
             <div class="mb-4">
-                <label class="block mb-2">Job Title</label>
+                <label class="block mb-2">First Name</label>
                 <input 
-                    v-model="form.title" 
+                    v-model="form.first_name" 
                     type="text" 
                     class="w-full border rounded p-2"
                     required
                 />
+                <div v-if="$page.props.errors.first_name" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.first_name }}
+                </div>
             </div>
 
             <div class="mb-4">
-                <label class="block mb-2">Industry</label>
+                <label class="block mb-2">Last Name</label>
                 <input 
-                    v-model="form.industry" 
+                    v-model="form.last_name" 
                     type="text" 
                     class="w-full border rounded p-2"
                     required
                 />
+                <div v-if="$page.props.errors.last_name" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.last_name }}
+                </div>
             </div>
 
             <div class="mb-4">
-                <label class="block mb-2">Start Date</label>
+                <label class="block mb-2">Email</label>
                 <input 
-                    v-model="form.start_date" 
-                    type="date" 
+                    v-model="form.email" 
+                    type="email" 
                     class="w-full border rounded p-2"
                     required
                 />
+                <div v-if="$page.props.errors.email" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.email }}
+                </div>
             </div>
 
             <div class="mb-4">
-                <label class="block mb-2">Job Description</label>
-                <textarea 
-                    v-model="form.description" 
+                <label class="block mb-2">Phone</label>
+                <input 
+                    v-model="form.phone" 
+                    type="text" 
                     class="w-full border rounded p-2"
-                    rows="4"
                     required
-                ></textarea>
+                />
+                <div v-if="$page.props.errors.phone" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.phone }}
+                </div>  
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-2">Address Line 1</label>
+                <input 
+                    v-model="form.address_line_1" 
+                    type="text" 
+                    class="w-full border rounded p-2"
+                    required
+                />
+                <div v-if="$page.props.errors.address_line_1" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.address_line_1 }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-2">Address Line 2</label>
+                <input 
+                    v-model="form.address_line_2" 
+                    type="text" 
+                    class="w-full border rounded p-2"
+                />
+                <div v-if="$page.props.errors.address_line_2" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.address_line_2 }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-2">City</label>
+                <input 
+                    v-model="form.city" 
+                    type="text" 
+                    class="w-full border rounded p-2"
+                    required
+                />
+                <div v-if="$page.props.errors.city" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.city }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-2">State</label>
+                <input 
+                    v-model="form.state" 
+                    type="text" 
+                    class="w-full border rounded p-2"
+                    required
+                />
+                <div v-if="$page.props.errors.state" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.state }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-2">Zip</label>
+                <input 
+                    v-model="form.zip" 
+                    type="text" 
+                    class="w-full border rounded p-2"
+                    required
+                />
+                <div v-if="$page.props.errors.zip" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.zip }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-2">Country</label>
+                <input 
+                    v-model="form.country" 
+                    type="text" 
+                    class="w-full border rounded p-2"
+                    required
+                />
+                <div v-if="$page.props.errors.country" class="text-red-500 text-sm mt-1">
+                    {{ $page.props.errors.country }}
+                </div>
             </div>
 
             <div>
@@ -48,7 +137,7 @@
                     type="submit" 
                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
-                    Update Job
+                    Update
                 </button>
             </div>
         </form>
@@ -58,16 +147,19 @@
 <script>
 export default {
     props: {
-        job: Object
+        person: Object,
+        errors: Object
     },
     data() {
+        console.log(this.person)
         return {
-            form: { ...this.job }
+            form: { ...this.person }
         }
+
     },
     methods: {
         submit() {
-            this.$inertia.put(this.route('jobs.update', this.job.id), this.form)
+            this.$inertia.put(this.route('people.update', this.person.id), this.form)
         }
     }
 }
