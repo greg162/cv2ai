@@ -16,5 +16,10 @@ Route::get('dashboard', function () {
 Route::resource('jobs', JobController::class);
 Route::resource('people', PersonController::class);
 
+
+// Managing people associated with a job
+Route::post('/jobs/{job}/people', [App\Http\Controllers\JobPersonController::class, 'attachPerson'])->name('jobs.attach-person');
+Route::delete('/jobs/{job}/people/{person}', [App\Http\Controllers\JobPersonController::class, 'detachPerson'])->name('jobs.detach-person');
+
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

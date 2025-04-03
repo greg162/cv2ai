@@ -19,4 +19,9 @@ class AiJob extends Model
     protected $dates = [
         'start_date'
     ];
+
+    public function jobPersons()
+    {
+        return $this->hasMany(JobPerson::class);
+    }
 }

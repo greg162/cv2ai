@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\AiJob as Job;
 
 class Person extends Model
 {
@@ -19,4 +20,19 @@ class Person extends Model
         'zip',
         'country'
     ];
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+
+    public function jobPersons()
+    {
+        return $this->belongsToMany(Job::class, 'job_person')
+            ->withTimestamps();
+    }
 }
