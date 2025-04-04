@@ -20,6 +20,8 @@ class Person extends Model
         'zip',
         'country'
     ];
+    
+    protected $table = 'people';
 
     public function files()
     {
@@ -32,7 +34,16 @@ class Person extends Model
 
     public function jobPersons()
     {
-        return $this->belongsToMany(Job::class, 'job_person')
+        return $this->belongsToMany(JobPerson::class)
+            ->withPivot('job_id', 'person_id')
+            ->withTimestamps();
+    }
+
+    public function jobs()
+    {
+        return $this->belongsToMany(Job::class, 'ai_jobs_people') // Specify the correct pivot table name
+            ->using(JobPerson::class)
+            ->withPivot('job_id', 'person_id')
             ->withTimestamps();
     }
 }

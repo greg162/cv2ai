@@ -24,4 +24,12 @@ class AiJob extends Model
     {
         return $this->hasMany(JobPerson::class);
     }
+
+    public function people()
+    {
+        return $this->belongsToMany(Person::class, 'ai_jobs_people') // Specify the correct pivot table name
+            ->using(JobPerson::class)
+            ->withPivot('ai_job_id', 'person_id')
+            ->withTimestamps();
+    }
 }

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs_people', function (Blueprint $table) {
+        Schema::create('ai_jobs_people', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('person_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('ai_job_id')->constrained()->cascadeOnDelete();
         });
     }
 

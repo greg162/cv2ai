@@ -1,3 +1,27 @@
+<script>
+import JobPerson from '@/pages/Jobs/JobPerson.vue';
+
+export default {
+components: {
+        JobPerson, // Register the JobPerson component
+    },
+    props: {
+        job: Object,
+        attachedPeople: Array,
+        availablePeople: Array,
+    },
+    data() {
+        return {
+            form: { ...this.job },
+        };
+    },
+    methods: {
+        submit() {
+            this.$inertia.put(this.route('jobs.update', this.job.id), this.form);
+        },
+    },
+};
+</script>
 <template>
     <div class="container mx-auto p-6">
         <h1 class="text-2xl font-bold mb-4">Edit Job Listing</h1>
@@ -52,23 +76,11 @@
                 </button>
             </div>
         </form>
+
+        <JobPerson
+            :job="job"
+            :attached-people="attachedPeople"
+            :available-people="availablePeople"
+        ></JobPerson>
     </div>
 </template>
-
-<script>
-export default {
-    props: {
-        job: Object
-    },
-    data() {
-        return {
-            form: { ...this.job }
-        }
-    },
-    methods: {
-        submit() {
-            this.$inertia.put(this.route('jobs.update', this.job.id), this.form)
-        }
-    }
-}
-</script>

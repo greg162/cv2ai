@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AiJob as Job;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Person;
 
 class JobController extends Controller
 {
@@ -37,8 +38,18 @@ class JobController extends Controller
 
     public function edit(Job $job)
     {
+        // Get all people not already associated with this job (for the "add person" dropdown)
+        $availablePeople = Person::whereDoesntHave('jobs', function ($query) use ($job) {
+            $query->where('ai_jobs.id', $job->id);
+        })->get();
+
+        //Get all of the people who are already associated with this job
+        $associatedPeople = $job->people()->get();
+        
         return Inertia::render('Jobs/Edit', [
-            'job' => $job
+            'job' => $job,
+            'availablePeople' => $availablePeople,
+            'associatedPeople' => $associatedPeople,
         ]);
     }
 

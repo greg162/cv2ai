@@ -24,10 +24,14 @@ class JobPersonController extends Controller
         $availablePeople = Person::whereDoesntHave('jobs', function ($query) use ($job) {
             $query->where('jobs.id', $job->id);
         })->get();
+
+        //Get all of the people who are already associated with this job
+        $associatedPeople = $job->people()->get();
         
         return Inertia::render('Jobs/Show', [
             'job' => $job,
             'availablePeople' => $availablePeople,
+            'associatedPeople' => $associatedPeople,
         ]);
     }
 
@@ -48,9 +52,16 @@ class JobPersonController extends Controller
         if (!$job->people()->where('people.id', $validated['person_id'])->exists()) {
             $job->people()->attach($validated['person_id']);
         }
+
+        Inertia::render('Jobs/Edit', [
+            'job' => $job,
+            'availablePeople' => Person::whereDoesntHave('jobs', function ($query) use ($job) {
+                $query->where('jobs.id', $job->id);
+            })->get(),
+            'associatedPeople' => $job->people()->get(),
+        ]);
         
-        return redirect()->route('jobs.show', $job)
-            ->with('success', 'Person added to job successfully.');
+
     }
 
     /**
