@@ -6,6 +6,7 @@ use App\Models\AiJob as Job;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Http\Resources\JobResource;
 
 class JobPersonController extends Controller
 {
@@ -17,22 +18,8 @@ class JobPersonController extends Controller
      */
     public function show(Job $job)
     {
-        // Load the job with its associated people
-        $job->load('people');
-        
-        // Get all people not already associated with this job (for the "add person" dropdown)
-        $availablePeople = Person::whereDoesntHave('jobs', function ($query) use ($job) {
-            $query->where('jobs.id', $job->id);
-        })->get();
-
-        //Get all of the people who are already associated with this job
-        $associatedPeople = $job->people()->get();
-        
-        return Inertia::render('Jobs/Show', [
-            'job' => $job,
-            'availablePeople' => $availablePeople,
-            'associatedPeople' => $associatedPeople,
-        ]);
+        // Convert JobResource to an array
+        return Inertia::render('Jobs/Show', (new JobResource($job))->toArray(request()));
     }
 
     /**
@@ -52,16 +39,8 @@ class JobPersonController extends Controller
         if (!$job->people()->where('people.id', $validated['person_id'])->exists()) {
             $job->people()->attach($validated['person_id']);
         }
-
-        Inertia::render('Jobs/Edit', [
-            'job' => $job,
-            'availablePeople' => Person::whereDoesntHave('jobs', function ($query) use ($job) {
-                $query->where('jobs.id', $job->id);
-            })->get(),
-            'associatedPeople' => $job->people()->get(),
-        ]);
-        
-
+        // Convert JobResource to an array
+        return Inertia::render('Jobs/Edit', (new JobResource($job))->toArray(request()));
     }
 
     /**
@@ -73,9 +52,9 @@ class JobPersonController extends Controller
      */
     public function detachPerson(Job $job, Person $person)
     {
+        // Detach the person from the job
         $job->people()->detach($person->id);
-        
-        return redirect()->route('jobs.show', $job)
-            ->with('success', 'Person removed from job successfully.');
+
+        return Inertia::render('Jobs/Edit', (new JobResource($job))->toArray(request()));
     }
 }

@@ -2,7 +2,7 @@
 import JobPerson from '@/pages/Jobs/JobPerson.vue';
 
 export default {
-components: {
+    components: {
         JobPerson, // Register the JobPerson component
     },
     props: {

@@ -2,7 +2,7 @@
 <div>
     <h3>Add People</h3>
 <!-- Add content to display availablePeople and attachedPeople -->
-        <div v-if="availablePeople.length">
+        <div v-if="availablePeople.length">ablePeople.length">
             <h4>Available People</h4>
             <ul>
                 <li v-for="person in availablePeople" :key="person.id">
@@ -11,7 +11,7 @@
                 </li>
             </ul>
         </div>
-        <div v-if="attachedPeople.length">
+        <div v-if="attachedPeople.length">hedPeople.length">
             <h4>Attached People</h4>
             <ul>
                 <li v-for="person in attachedPeople" :key="person.id">
@@ -31,15 +31,15 @@
     props: {
       job: {
         type: Object,
-required: true,
+        required: true,
       },
       availablePeople: {
         type: Array,
-default: () => [], // Default to an empty array
+        default: () => [], // Default to an empty array
       },
       attachedPeople: {
         type: Array,
-default: () => [], // Default to an empty array
+        default: () => [], // Default to an empty array
       },
     },
     
@@ -53,9 +53,14 @@ default: () => [], // Default to an empty array
       };
     },
     
-    methods: {
+    methods: {{
+      attachPerson(personId) {eople:', this.availablePeople);
+        this.form.person_id = personId;his.attachedPeople);
+        this.form.post(route('jobs.attach-person', this.job.id), {
+          onSuccess: () => {
+            this.form.reset();
       attachPerson(personId) {
-this.form.person_id = personId;
+        this.form.person_id = personId;
         this.form.post(route('jobs.attach-person', this.job.id), {
           onSuccess: () => {
             this.form.reset();
@@ -65,8 +70,7 @@ this.form.person_id = personId;
 
     
       detachPerson(person) {
-        if (!this.personToDetach) return;
-        
+        console.log('detaching person', person);
         this.form.delete(route('jobs.detach-person', [this.job.id, person.id]), {
           preserveScroll: true,
           onSuccess: () => {
