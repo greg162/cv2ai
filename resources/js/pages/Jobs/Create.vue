@@ -11,8 +11,6 @@ const form = reactive({
 });
 
 function submit() {
-    console.log(form)
-    console.log(route('jobs.store'))
     router.post(route('jobs.store'), form)
 }
 

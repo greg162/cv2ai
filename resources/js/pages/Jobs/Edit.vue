@@ -1,5 +1,6 @@
 <script>
-import JobPerson from '@/pages/Jobs/JobPerson.vue';
+
+import JobPerson from '@/Pages/Jobs/JobPerson.vue'
 
 export default {
     components: {
@@ -8,19 +9,20 @@ export default {
     props: {
         job: Object,
         attachedPeople: Array,
-        availablePeople: Array,
+        availablePeople: Array
     },
     data() {
         return {
-            form: { ...this.job },
-        };
+
+            form: { ...this.job }
+        }
     },
     methods: {
         submit() {
-            this.$inertia.put(this.route('jobs.update', this.job.id), this.form);
-        },
+            this.$inertia.put(this.route('jobs.update', this.job.id), this.form)
+        }
     },
-};
+}
 </script>
 <template>
     <div class="container mx-auto p-6">
