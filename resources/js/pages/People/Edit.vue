@@ -142,16 +142,45 @@
             </div>
         </form>
     </div>
+    <div class="container" >
+        <h3>Available Checks</h3>
+        <ul class="list-disc pl-5">
+            <li v-for="check in availableChecks" :key="check.id" class="mb-2">
+                <input type="checkbox" :value="check.id" v-model="selectedChecks[check.id]" /> {{ check.name }}
+            </li>
+        </ul>
+
+
+        <resume-scanner-create 
+            v-if="selectedChecks['resume_scanner']"
+            :available-checks="availableChecks"
+            :selected-checks="selectedChecks"
+            :person="person"
+            :errors="errors"
+            ></resume-scanner-create>
+
+
+    </div>
 </template>
 
 <script>
+
+import ResumeScannerCreate from '@/features/checks/ResumeScanner/Create.vue';
+
 export default {
+    components: {
+        resumeScannerCreate: ResumeScannerCreate,
+    },
     props: {
         person: Object,
-        errors: Object
+        errors: Object,
+        availableChecks: Array,
+        selectedChecks: {
+            type: Object,
+            default: () => [], // Default to an empty array
+        },
     },
     data() {
-        console.log(this.person)
         return {
             form: { ...this.person }
         }
@@ -159,8 +188,15 @@ export default {
     },
     methods: {
         submit() {
+
             this.$inertia.put(this.route('people.update', this.person.id), this.form)
-        }
+        },
+        chechkSelected(checkId) {
+            return this.selectedChecks[checkId] || false;
+        },
+        attachCheck() {
+            console.log(this.selectedChecks);
+        },
     }
 }
 </script>

@@ -2,33 +2,25 @@
 
 namespace App\Features\Checks;
 
+use App\Features\Checks\CheckRegistery;
+
 class CheckController
 {
-    protected $checkRegistry;
 
-    public function __construct(CheckRegistery $checkRegistry)
+    static function listAllChecks(): array
     {
-        $this->checkRegistry = $checkRegistry;
-    }
-
-    public function index()
-    {
-        // Get all checks from the registry
-        $checks = $this->checkRegistry->getAllChecks();
-
-        // Return a view with the checks
-        return view('checks.index', compact('checks'));
-    }
-
-    public function show($checkName)
-    {
-        // Get the check class from the registry
-        $checkClass = $this->checkRegistry->getCheckClass($checkName);
-
-        // Create an instance of the check class
-        $check = new $checkClass();
-
-        // Return a view with the check details
-        return view('checks.show', compact('check'));
+        $returnData = [];
+        foreach (CheckRegistery::cases() as $check) {
+            $checkClass = $check->getClass();
+            $checkClass = class_basename($checkClass);
+            $returnData[] = [
+                'id' => $check->value,
+                'name' => $check->getName(),
+                'description' => $check->getDescription(),
+                'icon' => $check->getIcon(),
+                'directoryName' => $checkClass,
+            ];
+        }
+        return $returnData;
     }
 }

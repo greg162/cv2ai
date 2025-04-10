@@ -1,7 +1,10 @@
 <?php
 
+namespace App\Features\Checks;
+
 use App\Features\Checks\Check;
 use App\Features\Checks\ResumeScanner\ResumeScanner;
+use App\Features\Checks\ResumeScanner\ResumeScannerController;
 
 Enum CheckRegistery: string
 {
@@ -38,7 +41,7 @@ Enum CheckRegistery: string
     function getController(): string
     {
         return match ($this) {
-            self::ResumeScanner => 'App\Http\Controllers\ResumeScannerController',
+            self::ResumeScanner => ResumeScannerController::class,
         };
     }
 }

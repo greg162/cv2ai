@@ -2,10 +2,11 @@
 
 namespace App\Features\Checks;
 
+use Illuminate\Http\Request;
+
 interface CheckControllerInterface
 {
-    public function index(): array;
-    public function show(string $checkName): array;
-    public function getAllChecks(): array;
-    public function getCheckClass(string $checkName): string;
+    public function create(Request $request);
+    public function store(Request $request);
+    public function edit(Request $request);
 }

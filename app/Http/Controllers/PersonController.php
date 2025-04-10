@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Features\Checks\CheckController;
 use Illuminate\Http\Request;
 use App\Models\Person;
 use Illuminate\Support\Facades\Storage;
@@ -56,7 +57,8 @@ class PersonController extends Controller
     public function show(Person $person)
     {
         return Inertia::render('People/Show', [
-            'person' => $person
+            'person' => $person,
+            'availableChecks' => CheckController::listAllChecks(),
         ]);
     }
 
@@ -66,7 +68,8 @@ class PersonController extends Controller
     public function edit(Person $person)
     {
         return Inertia::render('People/Edit', [
-            'person' => $person
+            'person' => $person,
+            'availableChecks' => CheckController::listAllChecks(),
         ]);
     }
 
