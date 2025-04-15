@@ -1,3 +1,47 @@
+<script>
+
+import ResumeScannerCreate from '@/features/checks/ResumeScanner/Create.vue';
+
+export default {
+    components: {
+        resumeScannerCreate: ResumeScannerCreate,
+    },
+    props: {
+        person: Object,
+        errors: Object,
+        availableChecks: Array,
+    },
+    data() {
+        return {
+            form: { ...this.person },
+            selectedChecks: {}, // Initialize selectedChecks as an empty object
+        }
+
+    },
+    methods: {
+        submit() {
+
+            this.$inertia.put(this.route('people.update', this.person.id), this.form)
+        },
+        chechkSelected(checkId) {
+            return this.selectedChecks[checkId] || false;
+        },
+        attachCheck() {
+            console.log(this.selectedChecks);
+        },
+    },
+    beforeMount() {
+
+        for (const checkKey in this.availableChecks) {
+            const check = this.availableChecks[checkKey];
+            console.log(check.id);
+            if (typeof this.selectedChecks[check.id] == 'undefined') {
+                this.selectedChecks[check.id] = false; // Direct assignment for reactivity in Vue 3
+            }
+        }
+    },
+}
+</script>
 <template>
     <div class="container mx-auto p-6">
         <h1 class="text-2xl font-bold mb-4">Edit Person</h1>
@@ -162,41 +206,3 @@
 
     </div>
 </template>
-
-<script>
-
-import ResumeScannerCreate from '@/features/checks/ResumeScanner/Create.vue';
-
-export default {
-    components: {
-        resumeScannerCreate: ResumeScannerCreate,
-    },
-    props: {
-        person: Object,
-        errors: Object,
-        availableChecks: Array,
-        selectedChecks: {
-            type: Object,
-            default: () => [], // Default to an empty array
-        },
-    },
-    data() {
-        return {
-            form: { ...this.person }
-        }
-
-    },
-    methods: {
-        submit() {
-
-            this.$inertia.put(this.route('people.update', this.person.id), this.form)
-        },
-        chechkSelected(checkId) {
-            return this.selectedChecks[checkId] || false;
-        },
-        attachCheck() {
-            console.log(this.selectedChecks);
-        },
-    }
-}
-</script>
