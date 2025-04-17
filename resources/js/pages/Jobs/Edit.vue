@@ -1,28 +1,36 @@
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
+import JobPerson from '@/Pages/Jobs/JobPerson.vue';
 
-import JobPerson from '@/Pages/Jobs/JobPerson.vue'
-
-export default {
+export default defineComponent({
     components: {
         JobPerson, // Register the JobPerson component
     },
     props: {
-        job: Object,
-        attachedPeople: Array,
-        availablePeople: Array
+        job: {
+            type: Object as () => Record<string, any>,
+            required: true,
+        },
+        attachedPeople: {
+            type: Array as () => Array<Record<string, any>>,
+            required: true,
+        },
+        availablePeople: {
+            type: Array as () => Array<Record<string, any>>,
+            required: true,
+        },
     },
     data() {
         return {
-
-            form: { ...this.job }
-        }
+            form: { ...this.job } as Record<string, any>,
+        };
     },
     methods: {
-        submit() {
-            this.$inertia.put(this.route('jobs.update', this.job.id), this.form)
-        }
+        submit(): void {
+            this.$inertia.put(this.route('jobs.update', this.job.id), this.form);
+        },
     },
-}
+});
 </script>
 <template>
     <div class="container mx-auto p-6">
